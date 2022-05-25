@@ -243,8 +243,15 @@ def main():
     # print(header, flush=True)
 
     # sif算法处理
-    processing(inputs.standard_sif, inputs.folder, inputs.outfile,
-               inputs.pars, data, header, inputs.sky_p, inputs.method)
+    try:
+        processing(inputs.standard_sif, inputs.folder, inputs.outfile,
+                   inputs.pars, data, header, inputs.sky_p, inputs.method)
+    except Exception as e:
+        print('sif error: %s' % e, flush=True)
+    else:  # 如果打开没有出错
+        print('Sif compute Completed!')
+    finally:
+        pass
 
 
 if __name__ == '__main__':
