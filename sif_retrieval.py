@@ -183,7 +183,26 @@ def processing(standard_sif, folder, out_file, pars, data, header, sky_p='P1', m
             _sif = _sif.assign_coords(spec=spec)
             ls.append(_sif)
     sif = xr.merge(ls)
-    sif.to_dataframe().to_csv(out_file)
+    # sif.to_dataframe().to_csv(out_file)
+
+    tmp_tc = sif.to_dataframe()  # tmp_tc是Pandas 数据结构 - DataFrame
+    cols = tmp_tc.columns
+    rows = tmp_tc.index
+    for col in cols:
+        if str(tmp_tc[col].dtype) == 'object':  # 如果是字符串就略过
+            continue
+        for i in range(tmp_tc[col].shape[0]):
+            if (tmp_tc[col][i] < 0):
+                tmp_tc.loc[rows[i], col] = 0
+                # tmp_tc[col][i] = 0  # 会出错：A value is trying to be set on a copy of a slice from a DataFrame
+
+    # for i in range(tmp_tc.shape[0]):  # 行
+    #     for j in range(tmp_tc.shape[1]):  # 列
+    #         if str(tmp_tc.iloc[i, j].dtype) == 'object':  # 如果是字符串就略过
+    #             continue
+    #         print(tmp_tc.iloc[i, j])
+
+    tmp_tc.to_csv(out_file)
 
 
 
