@@ -213,6 +213,13 @@ def parse_args():
 
 
 def main():
+    #  https://blog.csdn.net/maskxxx/article/details/109292698
+    #  https://blog.csdn.net/weixin_42146296/article/details/92848315?utm_medium=distribute.pc_relevant.none-task-blog-title-1&spm=1001.2101.3001.4242
+    multiprocessing.freeze_support()  # 加入这行代码，用pyinstaller打包后，pool.map才能工作正常
+
+    if (len(sys.argv) > 7):  # 1个本py文件 + 6个参数
+        print('sif error: 程序安装路径中不能有空格！')
+
     # 解析命令行参数
     inputs = parse_args()
 
