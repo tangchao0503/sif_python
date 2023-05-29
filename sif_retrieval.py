@@ -65,7 +65,7 @@ def read_files(f):
     '''
     with open(f) as csvfile:
         data = list(csv.reader(csvfile))  # 读csv并转化为list
-#         data = np.array(data)
+        data = [[element for element in row if element != ''] for row in data]  # 去掉每行的空字符
         data = np.array(data, dtype=object)  # 转化为np数组
         data = [np.array(d) for d in data]
         csvfile.close()
